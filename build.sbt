@@ -8,4 +8,6 @@ name := "status-pages"
 
 lazy val core = project in file("core")
 
-lazy val root = (project in file(".")).aggregate(core)
+lazy val liftweb = (project in file("liftweb")).dependsOn(core)
+
+lazy val root = (project in file(".")).aggregate(core, liftweb)
