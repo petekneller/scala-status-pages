@@ -14,4 +14,5 @@ object Dependencies {
   val scalazCore       = "org.scalaz"                    %% "scalaz-core"               % scalazVersion
   val http4sCore       = "org.http4s"                    %% "http4s-core"               % http4sVersion
   val http4sDsl        = "org.http4s"                    %% "http4s-dsl"                % http4sVersion
+  val naiveHttp        = "io.shaka"                      %% "naive-http"                % "73"
 }
