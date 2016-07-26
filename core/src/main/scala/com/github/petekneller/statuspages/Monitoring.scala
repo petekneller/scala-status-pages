@@ -8,6 +8,7 @@ import org.joda.time.{LocalDateTime, LocalTime}
 
 import scala.concurrent.duration.{Duration, _}
 import scalaz.syntax.std.boolean._
+import scala.language.postfixOps
 
 trait Status {
   def name: String
