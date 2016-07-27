@@ -42,7 +42,7 @@ object StatusChecks {
   def currentValue(checks: Seq[StatusCheck]): Seq[Status] = checks.map(_.currentValue)
 
   def version(v: String): StatusCheck = InfoConstant("version", "Application version", v)
-  def startTime(timestamp: String = LocalDateTime.now.toString): StatusCheck = InfoConstant("startTime", "When this process spun up", timestamp)
+  def startTime(timestamp: String = LocalDateTime.now.toString): StatusCheck = InfoConstant("startTime", "When this process spun up", timestamp) // TODO: "... xy minutes ago"?
   private def runtimeName: (String, String) = {
     val rn = ManagementFactory.getRuntimeMXBean.getName.split("@")
     (rn.headOption.getOrElse("unavailable"), rn.drop(1).headOption.getOrElse("unavailable"))
