@@ -17,7 +17,7 @@ object Liftweb {
     // - otherwise you get text/plain
     val isJson = req.accepts.map(_ contains "application/json").getOrElse(false)
     val isHtml = req.accepts.map(_ contains "text/html").getOrElse(false)
-    val formatter = if (isJson) toJson _ else if (isHtml) toHtml _ else toText _
+    val formatter = if (isJson) toJson _ else if (isHtml) toHtml(_: Seq[Status], false) else toText _
     val contentType = if (isJson) "application/json" else if (isHtml) "text/html" else "text/plain"
 
     Full(formatter(status).fold(response(_, 503, contentType), response(_, 200, contentType)))

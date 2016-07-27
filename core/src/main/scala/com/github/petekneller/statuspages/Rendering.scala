@@ -22,7 +22,7 @@ object Rendering {
     healthy(status).fold(right(text), left(text))
   }
 
-  def toHtml(status: Seq[Status]): String \/ String = {
+  def toHtml(status: Seq[Status], justFragment: Boolean = false): String \/ String = {
     def html0(status: Status): Seq[(String, NodeSeq)] = status match {
       case SingleStatus(name, description, value, healthy) =>
         Seq(name -> <td>{description}</td><td class={healthy.fold("", "unhealthy")}>{value}</td>)
@@ -30,19 +30,17 @@ object Rendering {
         statii.flatMap(html0).map{ case (existingName, row) => s"$name.$existingName" -> row }
     }
 
-    val html =
-      <html>
+    val table =
+      <table>
         <style type="text/css">
           {new Unparsed(" .unhealthy { background-color: orange; } tr>td:nth-of-type(3) { width: 20%; } tr:nth-of-type(odd) { background-color: lightgray; } ")}
         </style>
-        <body>
-          <table>
-            {status.flatMap(html0).map{ case (name, row) => <tr><td>{name}</td>{row}</tr>}}
-          </table>
-        </body>
-      </html>
+        {status.flatMap(html0).map{ case (name, row) => <tr><td>{name}</td>{row}</tr>}}
+      </table>
 
-    val text = new PrettyPrinter(200, 2).format(html)
+    val page = if (justFragment) table else <html><body>${table}</body></html>
+
+    val text = new PrettyPrinter(200, 2).format(table)
     healthy(status).fold(right(text), left(text))
   }
 

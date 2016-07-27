@@ -19,7 +19,7 @@ object NaiveHttp {
     // - otherwise you get text/plain
     val isJson = req.accepts(APPLICATION_JSON)
     val isHtml = req.accepts(TEXT_HTML)
-    val formatter = if (isJson) toJson _ else if (isHtml) toHtml _ else toText _
+    val formatter = if (isJson) toJson _ else if (isHtml) toHtml(_: Seq[Status], false) else toText _
     val contentType = if (isJson) APPLICATION_JSON else if (isHtml) TEXT_HTML else TEXT_PLAIN
     formatter(status).fold(err => Response(SERVICE_UNAVAILABLE).entity(err), ok.entity(_)).contentType(contentType)
   }

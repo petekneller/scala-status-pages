@@ -20,7 +20,7 @@ object Http4s {
     // - otherwise you get text/plain
     val isJson = hasRequested(req, MediaType.`application/json`)
     val isHtml = hasRequested(req, MediaType.`text/html`)
-    val formatter = if (isJson) toJson _ else if (isHtml) toHtml _ else toText _
+    val formatter = if (isJson) toJson _ else if (isHtml) toHtml(_: Seq[Status], false) else toText _
     val contentType = if (isJson) MediaType.`application/json` else if (isHtml) MediaType.`text/html` else MediaType.`text/plain`
     formatter(status).fold(ServiceUnavailable(_), Ok(_)).withContentType(Some(contentType))
   }
